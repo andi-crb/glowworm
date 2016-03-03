@@ -1,0 +1,44 @@
+extends layout
+
+block content
+  #main
+    h1= title
+    h2.
+      All Stories
+    table
+      tr
+          th.
+              Title
+          th. 
+              Author
+          th.
+              URL
+          th.
+              ID
+          th.
+              Date Added
+          th.
+          th.
+          th.
+      - each story, i in stories
+          tr
+              td
+                  = story.title
+              td
+                  = story.author
+              td
+                  a(href='#{story.url}') 
+                      = story.url
+              td
+                  = story.idstories
+              td
+                  = story.dateAdded
+              td
+                  form(action='/stories/#{story.idstories}/edit',method='post',enctype='application/x-www-form-urlencoded')
+                      input(type='hidden',value='DELETE',name='_method')
+                      button(type='submit').
+                          Delete
+              td 
+                  a(href='/stories/#{story.idstories}/edit') Edit
+              td
+                  a(href='/stories/#{story.idstories}') Show
