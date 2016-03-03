@@ -1,5 +1,6 @@
 var express = require('express');
 var path = require('path');
+var mysql = require ('mysql');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -10,7 +11,15 @@ var users = require('./routes/users');
 
 var app = express();
 
+var connection = mysql.createConnection({
+  host : 'localhost',
+  user : 'root',
+  password : 'password'
+})
+
+
 // view engine setup
+app.set('port', 3000)
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
