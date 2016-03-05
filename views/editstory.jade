@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  #main
+    h2.
+      #{story.title}
+    form(action='/stories/#{story._id}/edit',method='post',name='updatestory',enctype='application/x-www-form-urlencoded')
+      p Title: 
+        input#inputTitle(type='text', value='#{story.title}', name='title')
+      p Author: 
+        input#inputAuthor(type='text', value='#{story.author}', name='author')
+      p URL: 
+        input#inputURL(type='text', value='#{story.url}', name='url')
+      p Publication: 
+        input#inputPublication(type='text', value='#{story.publication}', name='publication')
+      p Date Released: 
+        input#inputDateReleased(type='date', value='#{story.datereleased}', name='datereleased')
+      p 
+        input(type='hidden',value='PUT',name='_method')
+      p 
+        button#btnSubmit(type='submit').
+          Update

@@ -1,22 +1,4 @@
 extends layout
 
 block content
-  h1= title
   p Welcome to #{title}
-    table
-      tr
-          th.
-              Title
-          th. 
-              Author
-          th.
-              URL
-      - each story, i in stories
-          tr
-              td
-                  = story.title
-              td
-                  = story.author
-              td
-                  a(href='#{story.url}') 
-                      = story.url

@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  #main
+    h2.
+      #{story.title}
+    p.
+      Author: #{story.author}
+    p.
+      Publication: #{story.publication}
+    p
+      | URL: 
+      a(href='#{story.url}') #{story.url}
+    p.
+      ID: #{story.idstories}
+    p.
+      Date Released: #{story.datereleased}
+    p.
+      Date Added: #{story.dateadded}
