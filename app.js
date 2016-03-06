@@ -5,6 +5,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -29,6 +31,13 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(require('express-session')({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
@@ -64,6 +73,48 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
+
+module.exports = function(passport){
+
+passport.serializeUser(function(user, done){
+    done(null, user.id)
+})
+
+passport.deserializeUser(function(id, done){
+  connection.query("select * from users where idusers = "+id, function(err, rows){
+    done(err, rows[0])
+  })
+})
+
+passport.use('local-signup', new LocalStrategy({
+  usernameField : 'email',
+  passwordField : 'password',
+  passReqToCallback : true
+},
+function(req, email, password, done){
+  connection.query("select *from users where email = '"+email+"'",function(err, rows){
+    console.log(rows);
+    if(err)
+      return done(err);
+    if (rows.length){
+      return done(null, false, req.flash('signupMessage', 'That email is already taken.'))
+    } else {
+      var newUserMysql = new Object();
+      newUserMysql.email = email;
+      newUserMysql.password = password;
+      var insertQuery = "INSERT INTO users (email, password) VALUES ('" + email +"','"+password +"')";
+      console.log(insertQuery);
+      connection.query(inserQuery,function(err, rows){
+        newUserMysql.id = rows.insertID;
+        return done (null, newUserMysql)
+      })
+    }
+  })
+}
+))
+
+
+}
 
 
 module.exports = app;

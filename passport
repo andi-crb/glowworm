@@ -1,0 +1,41 @@
+module.exports = function(passport){
+
+passport.serializeUser(function(user, done){
+    done(null, user.id)
+})
+
+passport.deserializeUser(function(id, done){
+  connection.query("select * from users where idusers = "+id, function(err, rows){
+    done(err, rows[0])
+  })
+})
+
+passport.use('local-signup', new LocalStrategy({
+  usernameField : 'email',
+  passwordField : 'password',
+  passReqToCallback : true
+},
+function(req, email, password, done){
+  connection.query("select *from users where email = '"+email+"'",function(err, rows){
+    console.log(rows);
+    if(err)
+      return done(err);
+    if (rows.length){
+      return done(null, false, req.flash('signupMessage', 'That email is already taken.'))
+    } else {
+      var newUserMysql = new Object();
+      newUserMysql.email = email;
+      newUserMysql.password = password;
+      var insertQuery = "INSERT INTO users (email, password) VALUES ('" + email +"','"+password +"')";
+      console.log(insertQuery);
+      connection.query(inserQuery,function(err, rows){
+        newUserMysql.id = rows.insertID;
+        return done (null, newUserMysql)
+      })
+    }
+  })
+}
+))
+
+
+}

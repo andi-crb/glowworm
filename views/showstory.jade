@@ -17,3 +17,19 @@ block content
       Date Released: #{story.datereleased}
     p.
       Date Added: #{story.dateadded}
+    h3.
+      Review this story
+    form#formAddReview(name="addreview",method="post",action="/stories/:id")
+      span.hidden
+        p Story ID: 
+          input#inputReview(type="text", placeholder="reviewstory", name="storiesid", value='#{story.idstories}' readonly)
+      p Review: 
+          textarea#inputReview(type="text", placeholder="review", name="review")
+      p Status: 
+          input#inputStatus(type="text", placeholder="status", name="status")
+      p Rating: 
+          input#inputReview(type="number", placeholder="rating", name="rating", min="1" max="5")
+      p Date Read: 
+          input#inputDateRead(type="date", name="dateread", value="#{moment}")
+      p
+        button#btnSubmit(type="submit") submit

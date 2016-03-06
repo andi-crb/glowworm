@@ -1,18 +1,34 @@
 doctype html
 html
   head
-    title= title
+    title.
+      glowworm
     link(href='//fonts.googleapis.com/css?family=Raleway:400,300,600', rel='stylesheet', type='text/css')
     link(rel='stylesheet', href='/stylesheets/normalize.css')
     link(rel='stylesheet', href='/stylesheets/skeleton.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
+    #loginheader
+      if (!user)
+        ul
+          li
+            a(href="/login") Login
+          li
+            a(href="/register") Register
+      if (user)
+        ul
+          li.
+            You are currently logged in as #{user.displayname}
+          li
+            a(href="/logout") Logout
     h1
-      a(href='/') #{title}
+      a(href='/') glowworm
     #nav.fourteen.columns
       ul
         li
           a(href='/stories/') All Stories
         li
           a(href='/stories/random/') Random Story
+        li
+          My Profile
     block content

@@ -4,7 +4,10 @@ block content
   #main
     h2.
       #{story.title}
-    form(action='/stories/#{story._id}/edit',method='post',name='updatestory',enctype='application/x-www-form-urlencoded')
+    form(action='/stories/#{story.idstories}/edit',method='post',name='updatestory',enctype='application/x-www-form-urlencoded')
+      span.hidden
+        p ID: 
+          input#inputIdstories(type='text', value='#{story.idstories}', name='idstories')
       p Title: 
         input#inputTitle(type='text', value='#{story.title}', name='title')
       p Author: 

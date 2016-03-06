@@ -13,8 +13,10 @@ block content
           th.
               ID
           th.
-              Date Added
+              Publication
           th.
+              Date Added
+          th
           th.
           th.
       - each story, i in stories
@@ -26,10 +28,13 @@ block content
               td
                   = story.idstories
               td
+                  = story.publication
+              td
                   = story.dateAdded
               td 
                   a(href='/stories/#{story.idstories}/edit') Edit
               td
                   a(href='/stories/#{story.idstories}') Show
               td
-                  a(href='#{story.url}') Read
+                  unless story.url=='null'
+                    a(href='#{story.url}') Read

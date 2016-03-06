@@ -4,6 +4,19 @@ body {
 
 h1 {
   text-align: center;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  color: rgba(255,255,255,1);
+  text-decoration: normal;
+  /*-o-text-overflow: clip;*/
+  /*text-overflow: clip;*/
+  white-space: pre;
+  text-shadow: 0 0 10px #FFFFFF ,0 0 15px #FFFFFF , 0 0 20px #FFFFFF ,0 0 25px #FFFFFF , 0 0 30px #FFFFFF ,0 0 35px #FFFFFF , 0 0 40px #236B8E , 0 0 70px #236B8E , 0 0 80px #236B8E , 0 0 100px #236B8E, 0 0 110px #236B8E, 0 0 120px #236B8E, 0 0 130px #236B8E, 0 0 140px #236B8E, 0 0 150px #236B8E, 0 0 45px #236B8E, 0 0 55px #236B8E, 0 0 65px #236B8E, 0 0 75px #236B8E;
+}
+
+h1 a:hover{
+  color: #236B8E;
 }
 
 #nav {
@@ -26,4 +39,41 @@ h1 {
 
 h1 a {
  text-decoration: none;
+ color: #FFFFFF;
 }
+
+#loginheader {
+  color: #090c02;
+  text-align: right;
+  margin: 0px;
+  padding: 10px;
+}
+
+#loginheader p {
+  margin: 0px;
+  padding: 0px;
+}
+
+#loginheader ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#loginheader li{
+  display: inline-block;
+  padding: 10px;
+  text-align: right;
+}
+
+#loginheader a {
+  color: #090c02;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (min-width: 550px) {
+  h1 { font-size: 7.0rem; }
+
