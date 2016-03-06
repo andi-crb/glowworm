@@ -116,6 +116,11 @@ router.post('/login',
     res.redirect('/');
   })
 
+router.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
+});
+
 /* GET stories page. */
 router.get('/stories/', function(req, res, next) {
   console.log('stories')
