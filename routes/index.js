@@ -173,7 +173,8 @@ router.route('/stories/:id/edit')
 
 router.route('/reviews')
 .get(function(req, res, next){
-  connection.query('SELECT * FROM reviews', function(err, rows){
+  connection.query('SELECT * FROM reviews LEFT JOIN users ON users.idusers = reviews.usersid LEFT JOIN stories on reviews.storiesid = stories.idstories', function(err, rows){
+    console.log(rows)
     res.render('reviews', {user:req.user, reviews: rows})
   })
 })

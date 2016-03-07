@@ -25,11 +25,11 @@ block content
         - each review, i in reviews
           a(name='#{review.idreviews}')
           p. 
-            Review Author: #{review.displayname}
+            Review Author: #{review.usersid}
           p. 
             Date Read: #{review.dateread}
           p.
-            Status: #{review.displayname}  
+            Status: #{review.status}  
           p.
             Review: #{review.review}
           p.

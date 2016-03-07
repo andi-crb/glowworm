@@ -24,6 +24,7 @@ a:hover {
 
 h1 a:hover{
   color: #FFFFFF;
+  text-shadow: 0 0 10px #FFFFFF ,0 0 15px #FFFFFF , 0 0 20px #FFFFFF ,0 0 25px #FFFFFF , 0 0 30px #FFFFFF ,0 0 35px #FFFFFF , 0 0 40px #FFFFFF , 0 0 70px #FFFFFF , 0 0 80px #236B8E , 0 0 100px #236B8E, 0 0 110px #236B8E, 0 0 120px #236B8E, 0 0 130px #236B8E, 0 0 140px #236B8E, 0 0 150px #236B8E, 0 0 45px #FFFFFF, 0 0 55px #FFFFFF, 0 0 65px #FFFFFF, 0 0 75px #236B8E;
 }
 
 h2 {
