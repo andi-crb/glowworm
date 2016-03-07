@@ -140,7 +140,7 @@ router.route('/stories/:id')
       res.redirect('/stories/'+randomStoryId)
     })
   } else {
-    connection.query('SELECT * FROM reviews INNER JOIN stories ON reviews.storiesid = stories.idstories AND idstories =' + id, function(err,rows){
+    connection.query('SELECT * FROM stories LEFT JOIN reviews ON stories.idstories = reviews.storiesid WHERE storiesid =' + id, function(err,rows){
       console.log(rows)
       res.render('showstory', {title:'glowworm', story : rows[0], reviews : rows, user: req.user})
     })    

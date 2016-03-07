@@ -15,10 +15,19 @@ h1 {
   /*text-overflow: clip;*/
   white-space: pre;
   text-shadow: 0 0 10px #FFFFFF ,0 0 15px #FFFFFF , 0 0 20px #FFFFFF ,0 0 25px #FFFFFF , 0 0 30px #FFFFFF ,0 0 35px #FFFFFF , 0 0 40px #236B8E , 0 0 70px #236B8E , 0 0 80px #236B8E , 0 0 100px #236B8E, 0 0 110px #236B8E, 0 0 120px #236B8E, 0 0 130px #236B8E, 0 0 140px #236B8E, 0 0 150px #236B8E, 0 0 45px #236B8E, 0 0 55px #236B8E, 0 0 65px #236B8E, 0 0 75px #236B8E;
+  margin-bottom: 2.5rem;
+}
+
+a:hover {
+  color: #5E239D;
 }
 
 h1 a:hover{
   color: #236B8E;
+}
+
+h2 {
+  text-shadow: 0 0 10px #236B8E
 }
 
 #nav {
@@ -36,9 +45,6 @@ h1 a:hover{
  text-decoration: none;
 }
  
-#nav a:hover {
- text-decoration: underline;
-}
 
 h1 a {
  text-decoration: none;
@@ -75,6 +81,13 @@ h1 a {
 
 .hidden {
   display: none;
+}
+
+.search {
+  padding: 10px;
+  text-align: right;
+  float: right;
+  vertical-align: center;
 }
 
 @media (min-width: 550px) {
