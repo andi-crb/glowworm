@@ -1,0 +1,50 @@
+extends ./layout
+
+block content
+    #main
+        h2.
+             #{title}
+        table
+            tr
+                th.
+                    Status
+                th. 
+                    Review
+                th.
+                    Rating
+                th.
+                    Date Read
+                th.
+                    Date Added
+                th.
+                    User ID
+                th.
+                    Story ID
+                th.
+                th.
+                th.
+            - each review, i in reviews
+                tr
+                    td
+                        = review.status
+                    td
+                        = review.review
+                    td
+                        = review.rating
+                    td
+                        = review.dateread
+                    td
+                        = review.dateAdded
+                    td
+                        = review.reviewuser
+                    td
+                        = review.storiesid
+                    td
+                        form(action='/reviews/#{review._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
+                            input(type='hidden',value='DELETE',name='_method')
+                            button(type='submit').
+                                Delete
+                    td 
+                        a(href='/reviews/#{review._id}/edit') Edit
+                    td
+                        a(href='/reviews/#{review._id}') Show

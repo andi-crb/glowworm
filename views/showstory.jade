@@ -2,34 +2,60 @@ extends layout
 
 block content
   #main
-    h2.
-      #{story.title}
-    p.
-      Author: #{story.author}
-    p.
-      Publication: #{story.publication}
-    p
-      | URL: 
-      a(href='#{story.url}') #{story.url}
-    p.
-      ID: #{story.idstories}
-    p.
-      Date Released: #{story.datereleased}
-    p.
-      Date Added: #{story.dateadded}
-    h3.
-      Review this story
-    form#formAddReview(name="addreview",method="post",action="/stories/:id")
-      span.hidden
-        p Story ID: 
-          input#inputReview(type="text", placeholder="reviewstory", name="storiesid", value='#{story.idstories}' readonly)
-      p Review: 
-          textarea#inputReview(type="text", placeholder="review", name="review")
-      p Status: 
-          input#inputStatus(type="text", placeholder="status", name="status")
-      p Rating: 
-          input#inputReview(type="number", placeholder="rating", name="rating", min="1" max="5")
-      p Date Read: 
-          input#inputDateRead(type="date", name="dateread", value="#{moment}")
+    .four.columns
+      h2.
+        #{story.title}
+      p.
+        Author: #{story.author}
+      p.
+        Publication: #{story.publication}
       p
-        button#btnSubmit(type="submit") submit
+        | URL: 
+        a(href='#{story.url}') #{story.url}
+      p.
+        ID: #{story.idstories}
+      p.
+        Date Released: #{story.datereleased}
+      p.
+        Date Added: #{story.dateadded}
+    .four.columns
+      if (reviews)
+        h2.
+          Reviews
+        - each review, i in reviews
+          a(name='#{review.idreviews}')
+          p. 
+            Review Author: #{review.displayname}
+          p. 
+            Date Read: #{review.dateread}
+          p.
+            Status: #{review.displayname}  
+          p.
+            Review: #{review.review}
+          p.
+            Rating: #{review.rating}
+          p.
+            ------------------
+    .four.columns
+        if (user)
+          h2.
+            Review this story
+          form#formAddReview(name="addreview",method="post",action="/stories/:id")
+            span.hidden
+              p Story ID: 
+                input#inputReview(type="text", placeholder="reviewstory", name="storiesid", value='#{story.idstories}' readonly)
+            p Review: 
+                textarea#inputReview(type="text", placeholder="review", name="review")
+            p Status: 
+                input#inputStatus(type="text", placeholder="status", name="status")
+            p Rating: 
+                input#inputReview(type="number", placeholder="rating", name="rating", min="1" max="5")
+            p Date Read: 
+                input#inputDateRead(type="date", name="dateread", value="#{moment}")
+            p
+              button#btnSubmit(type="submit") submit
+        if (!user)
+          p
+            | You are not currently logged in. Please 
+            a(href="/login") login
+            |  to post a review.

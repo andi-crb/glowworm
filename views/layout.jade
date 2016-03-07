@@ -17,8 +17,9 @@ html
             a(href="/register") Register
       if (user)
         ul
-          li.
-            You are currently logged in as #{user.displayname}
+          li
+            | You are currently logged in as 
+            a(href='/myprofile') #{user.displayname}
           li
             a(href="/logout") Logout
     h1
@@ -30,5 +31,5 @@ html
         li
           a(href='/stories/random/') Random Story
         li
-          My Profile
+          a(href='/reviews/') Reviews
     block content

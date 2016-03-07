@@ -117,8 +117,8 @@ router.post('/login',
   })
 
 router.get('/logout', function(req, res) {
-    req.logout();
-    res.redirect('/');
+  req.logout();
+  res.redirect('/');
 });
 
 /* GET stories page. */
@@ -140,10 +140,9 @@ router.route('/stories/:id')
       res.redirect('/stories/'+randomStoryId)
     })
   } else {
-    connection.query('SELECT * FROM stories WHERE idstories=' + id, function(err,rows){
-      console.log(id)
+    connection.query('SELECT * FROM reviews INNER JOIN stories ON reviews.storiesid = stories.idstories AND idstories =' + id, function(err,rows){
       console.log(rows)
-      res.render('showstory', {title:'glowworm', story : rows[0], user: req.user})
+      res.render('showstory', {title:'glowworm', story : rows[0], reviews : rows, user: req.user})
     })    
   }
 })
@@ -170,6 +169,15 @@ router.route('/stories/:id/edit')
   })
 })
 
+//GET all reviews
+
+router.route('/reviews')
+.get(function(req, res, next){
+  connection.query('SELECT * FROM reviews', function(err, rows){
+    res.render('reviews', {user:req.user, reviews: rows})
+  })
+})
+
 //Add a new story
 
 router.route('/newstory')
@@ -188,8 +196,8 @@ router.route('/profile/:id')
 .get(function(req, res, next){
   var id = req.params.id
   connection.query('SELECT * FROM users WHERE idusers=' + id, function(err,rows){
-      res.render('profile', {profile : rows[0], user: req.user})
-    })    
+    res.render('profile', {profile : rows[0], user: req.user})
+  })    
 })
 
 //Myprofile

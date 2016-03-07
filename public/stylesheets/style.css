@@ -1,3 +1,5 @@
+/*https://coolors.co/app/236b8e-ffffff-000000-f61067-5e239d*/
+
 body {
   padding: 25px;
 }
@@ -21,6 +23,7 @@ h1 a:hover{
 
 #nav {
  margin: 13px 0 0 0;
+ font-weight: bold;
 }
  
 #nav ul li {
