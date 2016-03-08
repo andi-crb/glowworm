@@ -80,6 +80,10 @@ h1 a {
   color: #090c02;
 }
 
+#ratings {
+  color: #F61067;
+}
+
 .hidden {
   display: none;
 }

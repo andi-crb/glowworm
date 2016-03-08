@@ -35,7 +35,17 @@ block content
                     td
                         = review.review
                     td
-                        = review.rating
+                        #ratings
+                            if (review.rating == 5)
+                                &#9733;&#9733;&#9733;&#9733;&#9733;
+                            if (review.rating == 4)
+                                &#9733;&#9733;&#9733;&#9733;&#9734;
+                            if (review.rating == 3)
+                                &#9733;&#9733;&#9733;&#9734;&#9734;
+                            if (review.rating == 2)
+                                &#9733;&#9733;&#9734;&#9734;&#9734;
+                            if (review.rating == 1)
+                                &#9733;&#9734;&#9734;&#9734;&#9734;
                     td
                         = review.dateread
                     td

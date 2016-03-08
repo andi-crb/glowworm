@@ -32,8 +32,18 @@ block content
             Status: #{review.status}  
           p.
             Review: #{review.review}
-          p.
-            Rating: #{review.rating}
+          p
+            #ratings
+                if (review.rating == 5)
+                    &#9733;&#9733;&#9733;&#9733;&#9733;
+                if (review.rating == 4)
+                    &#9733;&#9733;&#9733;&#9733;&#9734;
+                if (review.rating == 3)
+                    &#9733;&#9733;&#9733;&#9734;&#9734;
+                if (review.rating == 2)
+                    &#9733;&#9733;&#9734;&#9734;&#9734;
+                if (review.rating == 1)
+                    &#9733;&#9734;&#9734;&#9734;&#9734;
           if (user)
             if user.idusers === review.idusers
               p

@@ -203,9 +203,17 @@ router.route('/reviews/:id/edit')
 .get(function(req, res, next){
   var id = req.params.id
   console.log(id)
-  connection.query('SELECT * FROM reviews LEFT JOIN stories ON reviews.storiesid = stories.idstories WHERE idreviews=' + id, function(err,rows){
+  connection.query('SELECT * FROM reviews LEFT JOIN stories ON reviews.storiesid = stories.idstories LEFT JOIN users ON reviews.usersid = users.idusers WHERE idreviews=' + id, function(err,rows){
     console.log(rows)
-    res.render('editreview', {review : rows[0], user : req.user})
+    if (req.user){
+      if (rows[0].idusers == req.user.idusers){
+        res.render('editreview', {review : rows[0], user : req.user})  
+      } else {
+        res.render('error')
+      }
+    } else {
+      res.render('error')      
+    }
   })    
 })
 .put(function(req, res, next){
