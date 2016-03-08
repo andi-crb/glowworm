@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  #main
+    h2.
+      Edit My Profile
+    form(action='/myprofile/edit',method='post',name='updateprofile',enctype='application/x-www-form-urlencoded')
+      span.hidden
+        p ID: 
+          input#inputIdprofiles(type='text', value='#{profile.idusers}', name='idusers')
+      p Display Name: 
+        input#inputDisplayName(type='text', name='displayname', value='#{profile.displayname}')
+      p Email: 
+        input#inputEmail(type='text', value='#{profile.emailaddress}', name='emailaddress')
+      p 
+        input(type='hidden',value='PUT',name='_method')
+      p 
+        button#btnSubmit(type='submit').
+          Update

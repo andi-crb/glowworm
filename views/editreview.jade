@@ -3,7 +3,7 @@ extends layout
 block content
   #main
     h2.
-      Edit this review
+      Edit your review of #{review.title} by #{review.author}
     form(action='/reviews/#{review.idreviews}/edit',method='post',name='updatereview',enctype='application/x-www-form-urlencoded')
       span.hidden
         p ID: 

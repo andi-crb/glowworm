@@ -188,12 +188,22 @@ router.route('/reviews')
   })
 })
 
+//individual review redirect
+router.route('/reviews/:id')
+.get(function(req, res, next){
+  var id = req.params.id
+  connection.query('SELECT * FROM reviews LEFT JOIN stories ON reviews.storiesid = stories.idstories WHERE reviews.idreviews=' + id, function(err,rows){
+    console.log('/stories/'+rows[0].idstories + '#' + rows[0].idreviews)
+    res.redirect('/stories/'+rows[0].idstories + '#' + rows[0].idreviews)
+  })
+})
+
 //Edit individual reviews
 router.route('/reviews/:id/edit')
 .get(function(req, res, next){
   var id = req.params.id
   console.log(id)
-  connection.query('SELECT * FROM reviews WHERE idreviews=' + id, function(err,rows){
+  connection.query('SELECT * FROM reviews LEFT JOIN stories ON reviews.storiesid = stories.idstories WHERE idreviews=' + id, function(err,rows){
     console.log(rows)
     res.render('editreview', {review : rows[0], user : req.user})
   })    
@@ -223,6 +233,24 @@ router.route('/profile/:id')
   connection.query('SELECT * FROM users WHERE idusers=' + id, function(err,rows){
     res.render('profile', {profile : rows[0], user: req.user})
   })    
+})
+
+
+//Edit profile
+router.route('/myprofile/edit')
+.get(function(req, res, next){
+  var idusers = req.user.idusers
+  console.log(idusers)
+  connection.query('SELECT * FROM users WHERE idusers=' + idusers, function(err, rows){
+    console.log(rows)
+    res.render('editprofile', {profile: rows[0], user: req.user})
+  })
+})
+.put(function(req, res, next){
+  console.log('UPDATE users SET displayname="' + req.body.displayname + '", emailaddress="' + req.body.emailaddress + '" WHERE idusers="' + req.body.idusers + '"')
+  connection.query('UPDATE users SET displayname="' + req.body.displayname + '", emailaddress="' + req.body.emailaddress + '" WHERE idusers="' + req.body.idusers + '"', function(err, rows){
+    res.redirect('/myprofile')
+  })
 })
 
 //Myprofile
