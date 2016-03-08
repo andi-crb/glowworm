@@ -25,7 +25,7 @@ block content
         - each review, i in reviews
           a(name='#{review.idreviews}')
           p. 
-            Review Author: #{review.usersid}
+            Review Author: #{review.displayname}
           p. 
             Date Read: #{review.dateread}
           p.
@@ -34,6 +34,10 @@ block content
             Review: #{review.review}
           p.
             Rating: #{review.rating}
+          if (user)
+            if user.idusers === review.idusers
+              p
+                a(href='/reviews/#{review.idreviews}/edit') Edit this review
           p.
             ------------------
     .four.columns
@@ -47,11 +51,13 @@ block content
           p Review: 
               textarea#inputReview(type="text", placeholder="review", name="review")
           p Status: 
-              input#inputStatus(type="text", placeholder="status", name="status")
+              select(name='status')
+                  option(value='To Read') To Read
+                  option(value='Read') Read
           p Rating: 
               input#inputReview(type="number", placeholder="rating", name="rating", min="1" max="5")
           p Date Read: 
-              input#inputDateRead(type="date", name="dateread", value="#{moment}")
+              input#inputDateRead(type="date", name="dateread", value="#{now}")
           p
             button#btnSubmit(type="submit") submit
       if (!user)

@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  #main
+    h2.
+      Edit this review
+    form(action='/reviews/#{review.idreviews}/edit',method='post',name='updatereview',enctype='application/x-www-form-urlencoded')
+      span.hidden
+        p ID: 
+          input#inputIdreviews(type='text', value='#{review.idreviews}', name='idreviews')
+      p Review: 
+        textarea#inputReview(name='review')
+          #{review.review}
+      p Status: 
+        select(name='status')
+          option(value='To Read') To Read
+          option(value='Read') Read
+      p Rating: 
+        input#inputRating(type='number', value='#{review.rating}', name='rating', min="1" max="5")
+      p Date Read: 
+        input#inputDate(type='date', value='#{review.dateread}', name='dateread')
+      p 
+        input(type='hidden',value='PUT',name='_method')
+      p 
+        button#btnSubmit(type='submit').
+          Update

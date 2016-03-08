@@ -4,5 +4,6 @@ block content
   #main
     h2.
       #{profile.displayname}
-    if itme
-      p. Edit
+    if user.idusers == profile.idusers
+      p
+        a(href='/profile/#{profile.idreviews}') Edit my profile

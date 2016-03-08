@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mysql = require ('mysql');
 var bodyParser = require ('body-parser');
+var moment = require ('moment');
 var methodOverride = require('method-override');
 var passport = require('passport')
 var LocalStrategy = require('passport-local').Strategy;
@@ -140,9 +141,17 @@ router.route('/stories/:id')
       res.redirect('/stories/'+randomStoryId)
     })
   } else {
-    connection.query('SELECT * FROM stories LEFT JOIN reviews ON stories.idstories = reviews.storiesid WHERE stories.idstories =' + id, function(err,rows){
-      console.log(rows)
-      res.render('showstory', {title:'glowworm', story : rows[0], reviews : rows, user: req.user})
+      var now = moment().format("YYYY-MM-DD");
+      console.log(now)
+    connection.query('SELECT * FROM stories LEFT JOIN reviews ON stories.idstories = reviews.storiesid LEFT JOIN users ON reviews.usersid = users.idusers WHERE stories.idstories =' + id, function(err,rows){
+      console.log(typeof rows[0])
+      if (typeof rows[0] === 'undefined'){
+        console.log(err, rows)
+        res.render('error')
+      } else {
+      console.log(err, rows)
+      res.render('showstory', {title:'glowworm', story : rows[0], reviews : rows, user: req.user, now:now})
+      }
     })    
   }
 })
@@ -179,6 +188,21 @@ router.route('/reviews')
   })
 })
 
+//Edit individual reviews
+router.route('/reviews/:id/edit')
+.get(function(req, res, next){
+  var id = req.params.id
+  console.log(id)
+  connection.query('SELECT * FROM reviews WHERE idreviews=' + id, function(err,rows){
+    console.log(rows)
+    res.render('editreview', {review : rows[0], user : req.user})
+  })    
+})
+.put(function(req, res, next){
+  connection.query('UPDATE reviews SET review="' + req.body.review + '", status="' + req.body.status + '" ,rating="' + req.body.rating + '" ,dateread="' + req.body.dateread + '" WHERE idreviews="' + req.body.idreviews + '"', function(err, rows){
+    res.redirect('/reviews/'+req.body.idreviews)
+  })
+})
 //Add a new story
 
 router.route('/newstory')
