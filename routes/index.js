@@ -125,7 +125,7 @@ router.get('/logout', function(req, res) {
 /* GET stories page. */
 router.get('/stories/', function(req, res, next) {
   console.log('stories')
-  connection.query('SELECT * FROM stories', function(err, rows){
+  connection.query('SELECT * FROM stories LEFT JOIN reviews ON stories.idstories = reviews.storiesid', function(err, rows){
     res.render('stories', {title: 'glowworm', stories : rows, user: req.user});
   });
 })
@@ -150,7 +150,20 @@ router.route('/stories/:id')
         res.render('error')
       } else {
       console.log(err, rows)
-      res.render('showstory', {title:'glowworm', story : rows[0], reviews : rows, user: req.user, now:now})
+      if (rows[0].rating > 0 && rows[0].rating < 6){
+        var average = 0
+        var arrAverage = []
+        for (i=0; i<rows.length; i++){
+          if (rows[i].rating > 0) {
+            arrAverage.push(rows[i].rating)
+          }
+        }
+        console.log(arrAverage)
+        var average = arrAverage.reduce(function(a, b) {return a + b});
+        var average = Math.round(average / arrAverage.length)
+        console.log(average)
+      }
+      res.render('showstory', {title:'glowworm', story : rows[0], reviews : rows, user: req.user, now:now, average: average})
       }
     })    
   }
