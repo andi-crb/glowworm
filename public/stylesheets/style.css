@@ -98,3 +98,23 @@ h1 a {
 @media (min-width: 550px) {
   h1 { font-size: 7.0rem; }
 
+.read:hover {
+  background-color: #5E239D;
+}
+
+.unread {
+  border: solid 2px #F61067;
+  padding: 10px;
+}
+
+.read {
+  padding: 10px;
+}
+
+.unread:hover {
+  background-color: #5E239D;
+}
+
+.fullwidth {
+  width: 100%;
+}

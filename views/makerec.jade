@@ -1,0 +1,27 @@
+extends layout
+
+block content
+  #main
+    h2.
+      Recommend this Story
+    p. 
+      #{story.title}
+    p.
+      #{story.author}
+    form#formRecommend(name="recommend",method="post",action="/recommend/#{story.idstories}")
+      p Comment: 
+        input#inputcomment(type="text", placeholder="comment", name="comment")
+      p
+        button#btnSubmit(type="submit") submit
+      table
+        tr
+            th.
+                Name
+            th
+        - each recommendee, i in recommendees
+            tr
+                td
+                  = recommendee.displayname
+                td
+                  input(type="checkbox", name="#{recommendee.idusers}")
+

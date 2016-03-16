@@ -126,8 +126,13 @@ router.get('/logout', function(req, res) {
 router.get('/stories/', function(req, res, next) {
   console.log('stories')
   connection.query('SELECT * FROM stories LEFT JOIN reviews ON stories.idstories = reviews.storiesid', function(err, rows){
+    // var stories = rows
+    // connection.query('SELECT * FROM users', function(err, rows){
+    //   var users = rows
+    //   console.log(stories, rows)
     res.render('stories', {title: 'glowworm', stories : rows, user: req.user});
-  });
+        // });
+});
 })
 
 // GET individual story page
@@ -141,29 +146,29 @@ router.route('/stories/:id')
       res.redirect('/stories/'+randomStoryId)
     })
   } else {
-      var now = moment().format("YYYY-MM-DD");
-      console.log(now)
+    var now = moment().format("YYYY-MM-DD");
+    console.log(now)
     connection.query('SELECT * FROM stories LEFT JOIN reviews ON stories.idstories = reviews.storiesid LEFT JOIN users ON reviews.usersid = users.idusers WHERE stories.idstories =' + id, function(err,rows){
       console.log(typeof rows[0])
       if (typeof rows[0] === 'undefined'){
         console.log(err, rows)
         res.render('error')
       } else {
-      console.log(err, rows)
-      if (rows[0].rating > 0 && rows[0].rating < 6){
-        var average = 0
-        var arrAverage = []
-        for (i=0; i<rows.length; i++){
-          if (rows[i].rating > 0) {
-            arrAverage.push(rows[i].rating)
+        console.log(err, rows)
+        if (rows[0].rating > 0 && rows[0].rating < 6){
+          var average = 0
+          var arrAverage = []
+          for (i=0; i<rows.length; i++){
+            if (rows[i].rating > 0) {
+              arrAverage.push(rows[i].rating)
+            }
           }
+          console.log(arrAverage)
+          var average = arrAverage.reduce(function(a, b) {return a + b});
+          var average = Math.round(average / arrAverage.length)
+          console.log(average)
         }
-        console.log(arrAverage)
-        var average = arrAverage.reduce(function(a, b) {return a + b});
-        var average = Math.round(average / arrAverage.length)
-        console.log(average)
-      }
-      res.render('showstory', {title:'glowworm', story : rows[0], reviews : rows, user: req.user, now:now, average: average})
+        res.render('showstory', {title:'glowworm', story : rows[0], reviews : rows, user: req.user, now:now, average: average})
       }
     })    
   }
@@ -280,5 +285,60 @@ router.route('/myprofile')
 .get(function(req, res, next){
   res.redirect('profile/' + req.user.idusers) 
 })
+
+//Recommendations
+
+router.route('/recommend/:id')
+.get(function(req, res, next){
+  console.log("running")
+  var idusers = req.user.idusers
+  var id = req.params.id
+  connection.query('SELECT * FROM stories WHERE idstories=' + id, function(err, rows){
+    var story = rows[0]
+    connection.query('SELECT * FROM users', function(err, rows){
+      var recommendees = rows
+      console.log(story, recommendees)
+      res.render('makerec', {recommendees: recommendees, story: story, user: req.user})
+    })
+  })
+})
+.post(function(req, res, next){
+  console.log(typeof req.body)
+  var userids = Object.keys(req.body)
+  console.log(userids)
+  var querystring = ""
+  for (i=0; i<userids.length; i++){
+    if (userids[i] != "comment"){
+      console.log("current userid value", userids[i])
+      var querystring = querystring + '("' + req.user.idusers + '","' + userids[i] + '","' + req.params.id + '","' + req.body.comment + '", "unread"),'
+    }
+  }
+  console.log("querystring", querystring)
+  querystring = querystring.slice(0, -1)
+  console.log('INSERT INTO recs (senderid, recipientid, storyid, comment, readbyrecipient) VALUES' + querystring)
+  connection.query('INSERT INTO recs (senderid, recipientid, storyid, comment, readbyrecipient) VALUES' + querystring, function(err, rows){
+    res.redirect('/stories/')
+
+    })
+})
+router.route('/recommend')
+.get(function(req, res, next){
+  console.log("running")
+  var id = req.user.idusers
+  console.log(id)
+  connection.query('SELECT * FROM recs LEFT JOIN stories ON storyid = idstories LEFT JOIN users on recipientid = idusers WHERE senderid=' + id, function(err, rows){
+    console.log(rows)
+    var recsfromme = rows
+    connection.query('SELECT * FROM recs LEFT JOIN stories ON storyid = idstories LEFT JOIN users on senderid = idusers WHERE recipientid=' + id, function(err, rows){
+      var recstome = rows
+  //   var story = rows[0]
+  //   connection.query('SELECT * FROM users', function(err, rows){
+  //     var recommendees = rows
+      console.log(rows)
+      res.render('myrecs', {fromes: recsfromme, tomes: recstome, user: req.user})
+    })
+  })
+})
+
 
 module.exports = router;
