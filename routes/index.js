@@ -257,8 +257,16 @@ router.route('/newstory')
 router.route('/profile/:id')
 .get(function(req, res, next){
   var id = req.params.id
+  // search for record based on params and logged in id (do you follow them)
+  //check for blocked. If blocked pass that to template, do not continue with query
+  //set variable basedon if you follow them
+  // search for record to see if they follow you. set variable to be passed based on that
   connection.query('SELECT * FROM users WHERE idusers=' + id, function(err,rows){
-    res.render('profile', {profile : rows[0], user: req.user})
+    res.render('profile', {profile : rows[0], user: req.user}
+// pass above variables for appropriate following information
+  )
+
+
   })
 })
 
@@ -286,6 +294,8 @@ router.route('/myprofile')
 .get(function(req, res, next){
   res.redirect('profile/' + req.user.idusers)
 })
+
+//Following list
 
 //Recommendations
 
