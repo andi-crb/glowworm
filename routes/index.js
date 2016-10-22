@@ -73,19 +73,19 @@ function(req, email, password, done, displayname){
 passport.use('local-login', new LocalStrategy({
   usernameField : 'emailaddress',
   passwordField : 'password',
-  passReqToCallback : true 
+  passReqToCallback : true
 },
-function(req, email, password, done) { 
+function(req, email, password, done) {
   connection.query("SELECT * FROM `users` WHERE `emailaddress` = '" + req.body.emailaddress + "'",function(err,rows){
     console.log(rows)
     if (err)
       return done(err);
     if (!rows.length) {
-      return done(null, false, req.flash('loginMessage', 'No user found.')); 
-    } 
+      return done(null, false, req.flash('loginMessage', 'No user found.'));
+    }
     if (!( rows[0].password == req.body.password))
-            return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); // create the loginMessage 
-          return done(null, rows[0]);     
+            return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); // create the loginMessage
+          return done(null, rows[0]);
 
         });
 }))
@@ -130,6 +130,7 @@ router.get('/stories/', function(req, res, next) {
     // connection.query('SELECT * FROM users', function(err, rows){
     //   var users = rows
     //   console.log(stories, rows)
+    console.log("error", err)
     res.render('stories', {title: 'glowworm', stories : rows, user: req.user});
         // });
 });
@@ -170,7 +171,7 @@ router.route('/stories/:id')
         }
         res.render('showstory', {title:'glowworm', story : rows[0], reviews : rows, user: req.user, now:now, average: average})
       }
-    })    
+    })
   }
 })
 .post(function(req, res, next){
@@ -188,7 +189,7 @@ router.route('/stories/:id/edit')
   connection.query('SELECT * FROM stories WHERE idstories=' + id, function(err,rows){
     console.log(rows)
     res.render('editstory', {title:'glowworm', story : rows[0], user : req.user})
-  })    
+  })
 })
 .put(function(req, res, next){
   connection.query('UPDATE stories SET title="' + req.body.title + '", author="' + req.body.author + '" ,url="' + req.body.url + '" ,publication="' + req.body.publication + '" WHERE idstories="' + req.body.idstories + '"', function(err, rows){
@@ -225,14 +226,14 @@ router.route('/reviews/:id/edit')
     console.log(rows)
     if (req.user){
       if (rows[0].idusers == req.user.idusers){
-        res.render('editreview', {review : rows[0], user : req.user})  
+        res.render('editreview', {review : rows[0], user : req.user})
       } else {
         res.render('error')
       }
     } else {
-      res.render('error')      
+      res.render('error')
     }
-  })    
+  })
 })
 .put(function(req, res, next){
   connection.query('UPDATE reviews SET review="' + req.body.review + '", status="' + req.body.status + '" ,rating="' + req.body.rating + '" ,dateread="' + req.body.dateread + '" WHERE idreviews="' + req.body.idreviews + '"', function(err, rows){
@@ -258,7 +259,7 @@ router.route('/profile/:id')
   var id = req.params.id
   connection.query('SELECT * FROM users WHERE idusers=' + id, function(err,rows){
     res.render('profile', {profile : rows[0], user: req.user})
-  })    
+  })
 })
 
 
@@ -283,7 +284,7 @@ router.route('/myprofile/edit')
 
 router.route('/myprofile')
 .get(function(req, res, next){
-  res.redirect('profile/' + req.user.idusers) 
+  res.redirect('profile/' + req.user.idusers)
 })
 
 //Recommendations
