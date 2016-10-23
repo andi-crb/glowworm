@@ -1,0 +1,35 @@
+extends layout
+block content
+  #main
+    h2.
+      All Stories
+    table
+      tr
+          th.
+              Title
+          th.
+              Author
+          th.
+              Publication
+          th.
+              Date Added
+          th
+          th.
+          th.
+      - each story, i in stories
+          tr
+              td
+                  = story.title
+              td
+                  = story.author
+              td
+                  = story.publication
+              td
+                  = story.dateAdded
+              td
+                  a(href='/stories/#{story.idstories}/edit') Edit
+              td
+                  a(href='/stories/#{story.idstories}') Show
+              td
+                  unless story.url=='null'
+                    a(href='#{story.url}') Read

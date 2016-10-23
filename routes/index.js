@@ -297,6 +297,14 @@ router.route('/myprofile')
 
 //Following list
 
+router.route('/follows')
+.get(function(req, res, next){
+  var idusers = req.user.idusers
+  connection.query('SELECT * FROM following WHERE followerid=' + idusers + " OR followeeid=" + idusers, function(err, rows){
+    res.render('follows', {follows: rows, user: req.user})
+  })
+})  
+
 //Recommendations
 
 router.route('/recommend/:id')
