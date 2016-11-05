@@ -258,6 +258,7 @@ router.route('/profile/:id')
 .get(function(req, res, next){
   var id = req.params.id
   var idusers = req.user.idusers
+  console.log("idusers", idusers)
   // blocker: blocker, blockee: blockee
   // search for record based on params and logged in id (do you follow them)
   //check for blocked. If blocked pass that to template, do not continue with query
@@ -265,11 +266,13 @@ router.route('/profile/:id')
   // search for record to see if they follow you. set variable to be passed based on that
   connection.query('SELECT * FROM users WHERE idusers=' + id, function(err,rows){
     var profile = rows[0]
-    connection.query('SELECT * FROM following WHERE followingid=' + idusers + ' AND followerid=' + id, function(err, rows){
-    var following = false
-    if (rows.length>0){
-      following = true
-    }
+    connection.query('SELECT * FROM following WHERE followerid=' + idusers + ' AND followeeid=' + id, function(err,rows){
+      console.log("rows", rows)
+      var following = false
+      console.log("following", following)
+      if (rows.length>0){
+        following = true
+      }
     res.render('profile', {profile : profile, user: req.user, following: following, })
 
 

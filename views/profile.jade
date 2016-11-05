@@ -7,7 +7,7 @@ block content
     if user.idusers == profile.idusers
       p
         a(href='/myprofile/edit') Edit my profile
-    else if following == true
+    else if following == false
       button.btn(type="button") Follow
     else
       button.btn.btn-primary(type="button") Following
