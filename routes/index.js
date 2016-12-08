@@ -258,7 +258,8 @@ router.route('/profile/:id')
 .get(function(req, res, next){
   var id = req.params.id
   var idusers = req.user.idusers
-  console.log("idusers", idusers)
+  connection.query('SELECT * FROM blocking WHERE ( blocker IN (' + idusers + ', ' + id + ')) AND (blockee IN (' + idusers + ', ' + id + '))', function(err,rows){
+
   // blocker: blocker, blockee: blockee
   // search for record based on params and logged in id (do you follow them)
   //check for blocked. If blocked pass that to template, do not continue with query
