@@ -252,6 +252,18 @@ router.route('/newstory')
   })
 })
 
+//Add a new collection
+
+router.route('/newcollection')
+.get(function(req, res){
+  res.render('newcollection', { user : req.user });
+})
+.post(function(req, res, next){
+  connection.query('INSERT INTO collections (title, editor, url, type) VALUES("' + req.body.title + '","' + req.body.editor + '","' + req.body.url + '","' + req.body.type + '")', function(err, rows){
+    res.redirect('/collections/')
+  })
+})
+
 //User profile
 
 router.route('/profile/:id')
@@ -351,24 +363,24 @@ router.route('/recommend/:id')
 
     })
 })
-router.route('/recommend')
-.get(function(req, res, next){
-  console.log("running")
-  var id = req.user.idusers
-  console.log(id)
-  connection.query('SELECT * FROM recs LEFT JOIN stories ON storyid = idstories LEFT JOIN users on recipientid = idusers WHERE senderid=' + id, function(err, rows){
-    console.log(rows)
-    var recsfromme = rows
-    connection.query('SELECT * FROM recs LEFT JOIN stories ON storyid = idstories LEFT JOIN users on senderid = idusers WHERE recipientid=' + id, function(err, rows){
-      var recstome = rows
-  //   var story = rows[0]
-  //   connection.query('SELECT * FROM users', function(err, rows){
-  //     var recommendees = rows
-      console.log(rows)
-      res.render('myrecs', {fromes: recsfromme, tomes: recstome, user: req.user})
-    })
-  })
-})
+// router.route('/recommend')
+// .get(function(req, res, next){
+//   console.log("running")
+//   var id = req.user.idusers
+//   console.log(id)
+//   connection.query('SELECT * FROM recs LEFT JOIN stories ON storyid = idstories LEFT JOIN users on recipientid = idusers WHERE senderid=' + id, function(err, rows){
+//     console.log(rows)
+//     var recsfromme = rows
+//     connection.query('SELECT * FROM recs LEFT JOIN stories ON storyid = idstories LEFT JOIN users on senderid = idusers WHERE recipientid=' + id, function(err, rows){
+//       var recstome = rows
+//   //   var story = rows[0]
+//   //   connection.query('SELECT * FROM users', function(err, rows){
+//   //     var recommendees = rows
+//       console.log(rows)
+//       res.render('myrecs', {fromes: recsfromme, tomes: recstome, user: req.user})
+//     })
+//   })
+// })
 
 
 module.exports = router;

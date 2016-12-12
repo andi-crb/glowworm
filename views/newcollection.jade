@@ -1,0 +1,19 @@
+extends ./layout
+
+block content
+    #main
+        h2.
+            #{title}
+        form#formAddCollection(name="addcollection",method="post",action="/newcollection")
+            p Title:
+                input#inputtTitle(type="text", placeholder="title", name="title" size="40")
+            p Author/Editor:
+                input#inputEditor(type="text", placeholder="editor", name="editor", size="40")
+            p URL:
+                input#inputURL(type="text", placeholder="url", name="url")
+            p Type:
+                input#inputType(type="text", placeholder="type", name="type")
+            p Stories:
+                input#inputStories(type="textarea", placeholder="stories")
+            p
+                button#btnSubmit(type="submit") submit
