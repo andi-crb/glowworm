@@ -261,7 +261,14 @@ router.route('/newcollection')
 .post(function(req, res, next){
   connection.query('INSERT INTO collections (title, editor, url, type) VALUES("' + req.body.title + '","' + req.body.editor + '","' + req.body.url + '","' + req.body.type + '")', function(err, rows){
     res.redirect('/collections/')
+    
+  // stories is an array
+  for (i = 0; i<stories; i++) {
+    connection.query('INSERT INTO stories (title, author, url, publication) VALUES("' + req.body.title[i] + '","' + req.body.author[i] + '","' + req.body.url + '","' + req.body.publication + '")', function(err, rows){
+
+  }
   })
+
 })
 
 //User profile
